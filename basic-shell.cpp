@@ -1,30 +1,4 @@
-#include<iostream>
-#include<string>
-#include<vector>
-#include<cstdlib>
-#include<cstdio>
-#include<sstream>
-#include<cstring>
-#include<unistd.h>
-#include<sys/wait.h>
-#include<sys/types.h>
-#include<map>
-
-#define SHELLNAME "ya-shell"
-using namespace std;
-
-
-class commandDetails {
-    public:
-        vector<string> arguments;
-        int largestArgument;
-        commandDetails ( pair < vector<string>, int > inputPair ) {
-            arguments = inputPair.first;
-            largestArgument = inputPair.second;
-        }
-};
-
-char predefinedCommandsList[][50] = {"echo", "pwd", "cd", "pinfo"};
+#include "essentials.h"
 
 class inbuilt {
     public:
