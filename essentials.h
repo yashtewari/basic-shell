@@ -16,7 +16,5 @@
 #define SHELLNAME "ya-shell"
 using namespace std;
 
-//inbuilt commands
-char predefinedCommandsList[][50] = {"echo", "pwd", "cd", "pinfo"};
-
+string homeDirectory, username, hostname;
 #endif

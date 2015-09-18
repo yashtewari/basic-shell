@@ -1,52 +1,37 @@
 #include "essentials.h"
+//get inbuilt methods in global space
+#include "inbuilt-methods.h"
 
-class inbuilt {
+//function type to create std::map with
+typedef void(*inbuiltCommandFunc)(vector<string>);
+
+class inbuiltEngine {
     private:
-        vector<string> inbuiltList;
-        map<string,int> inbuiltDict;
-        
-        inbuilt ( char predefinedCommands[][50] ) {
-            //inbuiltList = predefinedCommands;
-            //cout<<"constructor:\n";
-            for ( int i = 0; predefinedCommands[i][0] != '\0'; i++ ) {
-                //cout<<predefinedCommands[i]<<endl;
-                inbuiltList.push_back( predefinedCommands[i] );
-            }
-            for ( int i = 1; i <= inbuiltList.size(); i++ ) {
-                inbuiltDict[ inbuiltList[i-1] ] = i;
-            }
+        //std::map for quick reference
+        map< string, inbuiltCommandFunc> commandMethods;
+
+    public:
+        //constructor
+        inbuiltEngine () {
+            //populate commandMethods
+            commandMethods["echo"] = echo;
+            commandMethods["pwd"] = pwd;
+            commandMethods["cd"] = cd;
+            commandMethods["pinfo"] = pinfo;
         }
 
         bool isInbuilt ( string commandName ) {
-            return ( inbuiltDict.find( commandName ) != inbuiltDict.end() );
+            //is commandName a commandMethods key?
+            if ( commandMethods.find( commandName ) != commandMethods.end() )
+                return true;
+            else
+                return false;
         }
 
-        int getCommandCode ( string commandName ) {
-            return inbuiltDict[ commandName ];
+        void execute ( vector<string> commandArguments ) {
+            //pass the command arguments to the appropriate method
+            //the 0th argument is the command name itself
+            commandMethods[ commandArguments[0] ]( commandArguments );
         }
 
-        void executeInbuilt ( vector<string> commandArguments ) {
-            //cout<<"Executing from inbuilt:\n";
-            //cout<<getCommandCode( commandArguments[0] )<<endl;
-            switch ( getCommandCode( commandArguments[0] ) ) {
-                case 1:
-                    for ( int i = 1; i < commandArguments.size(); i++ ) {
-                        cout<<commandArguments[i]<<" ";
-                    } cout<<endl;
-                    break;
-                case 2:
-                    cout<< getcwd( 0, 0 )<<endl;
-                    break;
-                case 3:
-                    if ( chdir( commandArguments[1].c_str() ) == -1 ) {
-                        perror(SHELLNAME);
-                    }
-                    break;
-                case 4:
-                    cout<<"PID: "<<getpid()<<endl;
-                    break;
-                default:
-                    cout<<"Built-in command not found.\n";
-            }
-        }
-} inbuiltCommands( predefinedCommandsList );
+};
