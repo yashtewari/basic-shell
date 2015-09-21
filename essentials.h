@@ -12,6 +12,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <pthread.h>
+#include <fcntl.h>
 #include <map>
 
 #define SHELLNAME "ya-shell"
