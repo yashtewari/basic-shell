@@ -11,10 +11,12 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <pthread.h>
 #include <map>
 
 #define SHELLNAME "ya-shell"
 using namespace std;
 
-string homeDirectory, username, hostname;
+//globals
+string homeDirectory, currentDirectory, username, hostname;
 #endif

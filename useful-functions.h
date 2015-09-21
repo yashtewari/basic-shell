@@ -1,5 +1,5 @@
 #include "essentials.h"
-#ifndef __USEFUL_FUNCTIONS__
+#ifndef __USEFUL_FUNCTIONS__ //only include once
 #define __USEFUL_FUNCTIONS__
 
 //split string 'line' using delimiter 'delim'
@@ -38,7 +38,8 @@ vector<const char*> convertVector (vector<string> origVector) {
 //get current directory in display format
 //i.e. current directory with path relative from const string homeDirectory
 string getCurrentDirectory() {
-    string currentDirectory = getcwd(0,0);
+    //set current directory globally
+    currentDirectory = getcwd(0,0);
     string prefix(currentDirectory.begin(), currentDirectory.begin() + homeDirectory.length());
     if (prefix == homeDirectory) {
         currentDirectory.erase(currentDirectory.begin(), currentDirectory.begin() + homeDirectory.length());
@@ -46,7 +47,6 @@ string getCurrentDirectory() {
     }
     return currentDirectory;
 }
-
 
 
 #endif

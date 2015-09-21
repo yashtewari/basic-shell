@@ -1,27 +1,29 @@
-#include <iostream>
-#include <vector>
-#include <map>
-using namespace std;
-typedef int(*mappedFunction)(vector<int>);
+#include "essentials.h"
+
+int main(int argc, char* argv[]) {
+	int p[2];
+	pipe(p);
+
+	if (fork() == 0) {
+		dup2(p[1],1);
+		dup2(p[1],2);
+		close(p[1]);
+		close(p[0]);
 
 
-int a ( vector<int> A ) {
-	return A[0];
-}
+		if ((execl("/bin/ls","ls")) == 1 ) {
+			perror(SHELLNAME);
+		}
+		exit(EXIT_SUCCESS);
+	}
+	else {
+		close(p[1]);
 
-int b ( vector<int> A ) {
-	return 2;
-}
-
-int main() {
-	map <string, mappedFunction> any_map;
-	any_map["A"] = a;
-	any_map["B"] = b;
-	vector<int> x;
-	x.push_back(1);
-	x.push_back(2);
-	x.push_back(3);
-
-	cout<< any_map["A"](x) <<endl;
-	cout<< any_map["B"](x) <<endl;
+		sleep(100);
+		char buffer[1024];
+		while (read(p[0], buffer, sizeof(buffer)) != 0) {
+			cout<<buffer<<endl;
+		}
+		close(p[0]);
+	}
 }
